@@ -4,9 +4,16 @@ namespace Stevebauman\Inventory\Models;
 
 use Stevebauman\Inventory\Traits\InventoryTransactionHistoryTrait;
 
-class InventoryTransactionHistory extends Model
+class InventoryTransactionHistory extends BaseModel
 {
     use InventoryTransactionHistoryTrait;
+
+    /**
+     * The inventory transaction histories table.
+     *
+     * @var string
+     */
+    protected $table = 'inventory_transaction_histories';
 
     /**
      * The belongsTo transaction relationship.
@@ -15,6 +22,6 @@ class InventoryTransactionHistory extends Model
      */
     public function transaction()
     {
-        return $this->belongsTo(InventoryTransaction::class);
+        return $this->belongsTo(config('inventory.models.inventory_transaction'), 'transaction_id', 'id');
     }
 }

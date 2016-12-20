@@ -4,9 +4,16 @@ namespace Stevebauman\Inventory\Models;
 
 use Stevebauman\Inventory\Traits\InventoryStockTrait;
 
-class InventoryStock extends Model
+class InventoryStock extends BaseModel
 {
     use InventoryStockTrait;
+
+    /**
+     * The inventory stocks table.
+     *
+     * @var string
+     */
+    protected $table = 'inventory_stocks';
 
     /**
      * The belongsTo inventory item relationship.
@@ -15,7 +22,7 @@ class InventoryStock extends Model
      */
     public function item()
     {
-        return $this->belongsTo(Inventory::class, 'inventory_id', 'id');
+        return $this->belongsTo(config('inventory.models.inventory'), 'inventory_id', 'id');
     }
 
     /**
@@ -25,7 +32,7 @@ class InventoryStock extends Model
      */
     public function movements()
     {
-        return $this->hasMany(InventoryStockMovement::class, 'stock_id', 'id');
+        return $this->hasMany(config('inventory.models.inventory_stock_movement'), 'stock_id', 'id');
     }
 
     /**
@@ -35,7 +42,7 @@ class InventoryStock extends Model
      */
     public function transactions()
     {
-        return $this->hasMany(InventoryTransaction::class, 'stock_id', 'id');
+        return $this->hasMany(config('inventory.models.inventory_transaction'), 'stock_id', 'id');
     }
 
     /**
@@ -45,6 +52,6 @@ class InventoryStock extends Model
      */
     public function location()
     {
-        return $this->hasOne(Location::class);
+        return $this->hasOne(config('inventory.models.location'), 'id', 'location_id');
     }
 }

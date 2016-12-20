@@ -5,9 +5,16 @@ namespace Stevebauman\Inventory\Models;
 use Stevebauman\Inventory\Traits\InventoryTransactionTrait;
 use Stevebauman\Inventory\Interfaces\StateableInterface;
 
-class InventoryTransaction extends Model implements StateableInterface
+class InventoryTransaction extends BaseModel implements StateableInterface
 {
     use InventoryTransactionTrait;
+
+    /**
+     * The inventory transactions table.
+     *
+     * @var string
+     */
+    protected $table = 'inventory_transactions';
 
     /**
      * The belongsTo stock relationship.
@@ -16,7 +23,7 @@ class InventoryTransaction extends Model implements StateableInterface
      */
     public function stock()
     {
-        return $this->belongsTo(InventoryStock::class, 'stock_id', 'id');
+        return $this->belongsTo(config('inventory.models.inventory_stock'), 'stock_id', 'id');
     }
 
     /**
@@ -26,6 +33,6 @@ class InventoryTransaction extends Model implements StateableInterface
      */
     public function histories()
     {
-        return $this->hasMany(InventoryTransactionHistory::class, 'transaction_id', 'id');
+        return $this->hasMany(config('inventory.models.inventory_transaction_history'), 'transaction_id', 'id');
     }
 }
