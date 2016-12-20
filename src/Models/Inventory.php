@@ -6,7 +6,7 @@ use Stevebauman\Inventory\Traits\AssemblyTrait;
 use Stevebauman\Inventory\Traits\InventoryVariantTrait;
 use Stevebauman\Inventory\Traits\InventoryTrait;
 
-class Inventory extends Model
+class Inventory extends BaseModel
 {
     use InventoryTrait;
     use InventoryVariantTrait;
@@ -26,7 +26,7 @@ class Inventory extends Model
      */
     public function category()
     {
-        return $this->hasOne(Category::class);
+        return $this->hasOne(config('inventory.models.category'), 'id', 'category_id');
     }
 
     /**
@@ -36,7 +36,7 @@ class Inventory extends Model
      */
     public function metric()
     {
-        return $this->hasOne(Metric::class);
+        return $this->hasOne(config('inventory.models.metric'), 'id', 'metric_id');
     }
 
     /**
@@ -46,7 +46,7 @@ class Inventory extends Model
      */
     public function sku()
     {
-        return $this->hasOne(InventorySku::class, 'inventory_id', 'id');
+        return $this->hasOne(config('inventory.models.inventory_sku'), 'inventory_id', 'id');
     }
 
     /**
@@ -56,7 +56,7 @@ class Inventory extends Model
      */
     public function stocks()
     {
-        return $this->hasMany(InventoryStock::class, 'inventory_id', 'id');
+        return $this->hasMany(config('inventory.models.inventory_stock'), 'inventory_id', 'id');
     }
 
     /**
@@ -66,7 +66,7 @@ class Inventory extends Model
      */
     public function suppliers()
     {
-        return $this->belongsToMany(Supplier::class, 'inventory_suppliers', 'inventory_id')->withTimestamps();
+        return $this->belongsToMany(config('inventory.models.supplier'), 'inventory_suppliers', 'inventory_id')->withTimestamps();
     }
 
     /**
