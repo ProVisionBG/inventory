@@ -1,6 +1,6 @@
 <?php
 
-namespace pxpm\Inventory;
+namespace Stevebauman\Inventory;
 
 use Illuminate\Support\ServiceProvider;
 
